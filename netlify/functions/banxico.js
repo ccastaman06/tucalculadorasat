@@ -1,12 +1,12 @@
 // netlify/functions/banxico.js
 // Proxy seguro para la API de Banxico — evita CORS en el navegador.
-// Mapeo correcto de series según tabla Banxico:
-//   SF43718  = FIX (determinado hoy a las 12:00)
-//   SF60653  = Publicación DOF (FIX de ayer publicado hoy)
-//   SF46410  = Para Pagos (pub. DOF del día anterior, vigente hoy)
+// Series:
+//   SF43718 = FIX (determinado a las 12:00 del día hábil)
+//   SF60653 = Publicación DOF (FIX de ayer, publicado hoy en el DOF)
+//   SF46410 = Para Pagos / Liquidación (pub. DOF del día anterior, vigente hoy)
 
-const TOKEN = '95c2453758a4e2d0f27c683b13af9d6f14566452847d9477e11053142ff0e043';
-const BASE  = 'https://www.banxico.org.mx/SieAPIRest/service/v1';
+const TOKEN  = '95c2453758a4e2d0f27c683b13af9d6f14566452847d9477e11053142ff0e043';
+const BASE   = 'https://www.banxico.org.mx/SieAPIRest/service/v1';
 const SERIES = 'SF46410,SF60653,SF43718';
 
 exports.handler = async () => {
@@ -16,8 +16,16 @@ exports.handler = async () => {
     };
 
     try {
-        // /ultimos/10 para cubrir fines de semana y festivos y tener 7 días hábiles
-        const url = `${BASE}/series/${SERIES}/datos/ultimos/10?token=${TOKEN}`;
+        // Rango de 14 días para asegurar 7 días hábiles (cubre fines de semana y festivos)
+        function fmtFecha(d) {
+            return d.toISOString().split('T')[0]; // YYYY-MM-DD
+        }
+        const hoy    = new Date();
+        const inicio = new Date(hoy);
+        inicio.setDate(inicio.getDate() - 14);
+
+        const url = `${BASE}/series/${SERIES}/datos/${fmtFecha(inicio)}/${fmtFecha(hoy)}?token=${TOKEN}`;
+
         const res = await fetch(url, {
             headers: { 'Bmx-Token': TOKEN, 'Accept': 'application/json' },
         });
@@ -30,6 +38,7 @@ exports.handler = async () => {
         function parseSerie(idSerie) {
             const s = series.find(s => s.idSerie === idSerie);
             const datos = s?.datos ?? [];
+            // Más reciente primero
             return datos.slice().reverse().map(d => ({
                 fecha: d.fecha ?? '',
                 valor: (d.dato && d.dato !== 'N/E') ? parseFloat(d.dato) : null,
@@ -40,13 +49,14 @@ exports.handler = async () => {
         const dofData   = parseSerie('SF60653');
         const fixData   = parseSerie('SF43718');
 
+        // Valor más reciente de cada serie
         const latest = {
             pagos: pagosData[0] ?? null,
             dof:   dofData[0]   ?? null,
             fix:   fixData[0]   ?? null,
         };
 
-        // Historial: unión de fechas únicas, últimos 7 días hábiles
+        // Historial: unión de fechas únicas de las 3 series, límite 7 filas
         const todasFechas = [...new Set([
             ...pagosData.map(d => d.fecha),
             ...dofData.map(d => d.fecha),
