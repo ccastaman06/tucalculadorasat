@@ -1,13 +1,12 @@
 // netlify/functions/banxico.js
-// Proxy seguro para la API de Banxico — evita CORS en el navegador.
-// Series:
-//   SF43718 = FIX (determinado a las 12:00 del día hábil)
-//   SF60653 = Publicación DOF (FIX de ayer, publicado hoy en el DOF)
-//   SF46410 = Para Pagos / Liquidación (pub. DOF del día anterior, vigente hoy)
+// Series correctas según tabla Banxico:
+//   SF43718 = FIX (determinado hoy a las 12:00)
+//   SF60653 = Publicación DOF (dato de hoy) / Para Pagos (dato de ayer)
+// SF46410 descartada — contiene otro instrumento (no el tipo de cambio SAT)
 
 const TOKEN  = '95c2453758a4e2d0f27c683b13af9d6f14566452847d9477e11053142ff0e043';
 const BASE   = 'https://www.banxico.org.mx/SieAPIRest/service/v1';
-const SERIES = 'SF46410,SF60653,SF43718';
+const SERIES = 'SF60653,SF43718';
 
 exports.handler = async () => {
     const headers = {
@@ -16,9 +15,8 @@ exports.handler = async () => {
     };
 
     try {
-        // Rango de 14 días para asegurar 7 días hábiles (cubre fines de semana y festivos)
         function fmtFecha(d) {
-            return d.toISOString().split('T')[0]; // YYYY-MM-DD
+            return d.toISOString().split('T')[0];
         }
         const hoy    = new Date();
         const inicio = new Date(hoy);
@@ -38,37 +36,43 @@ exports.handler = async () => {
         function parseSerie(idSerie) {
             const s = series.find(s => s.idSerie === idSerie);
             const datos = s?.datos ?? [];
-            // Más reciente primero
             return datos.slice().reverse().map(d => ({
                 fecha: d.fecha ?? '',
                 valor: (d.dato && d.dato !== 'N/E') ? parseFloat(d.dato) : null,
             }));
         }
 
-        const pagosData = parseSerie('SF46410');
-        const dofData   = parseSerie('SF60653');
-        const fixData   = parseSerie('SF43718');
+        const dofData = parseSerie('SF60653');  // más reciente primero
+        const fixData = parseSerie('SF43718');
 
-        // Valor más reciente de cada serie
+        // Pub. DOF hoy  = dofData[0]
+        // Para Pagos    = dofData[1] (el valor de ayer de SF60653)
+        // FIX           = fixData[0]
         const latest = {
-            pagos: pagosData[0] ?? null,
-            dof:   dofData[0]   ?? null,
-            fix:   fixData[0]   ?? null,
+            dof:   dofData[0] ?? null,
+            pagos: dofData[1] ?? null,
+            fix:   fixData[0] ?? null,
         };
 
-        // Historial: unión de fechas únicas de las 3 series, límite 7 filas
+        // Historial: fechas únicas de ambas series, límite 7 filas
         const todasFechas = [...new Set([
-            ...pagosData.map(d => d.fecha),
             ...dofData.map(d => d.fecha),
             ...fixData.map(d => d.fecha),
         ])].slice(0, 7);
 
-        const historial = todasFechas.map(f => ({
-            fecha: f,
-            pagos: pagosData.find(d => d.fecha === f)?.valor ?? null,
-            dof:   dofData.find(d => d.fecha === f)?.valor   ?? null,
-            fix:   fixData.find(d => d.fecha === f)?.valor   ?? null,
-        }));
+        // Para cada fecha del historial:
+        // "Para Pagos" es el valor DOF del día ANTERIOR en el historial
+        const historial = todasFechas.map((f, i) => {
+            const dofHoy   = dofData.find(d => d.fecha === f)?.valor ?? null;
+            const dofAyer  = dofData[dofData.findIndex(d => d.fecha === f) + 1]?.valor ?? null;
+            const fixHoy   = fixData.find(d => d.fecha === f)?.valor ?? null;
+            return {
+                fecha: f,
+                pagos: dofAyer,   // pub. DOF del día anterior
+                dof:   dofHoy,    // pub. DOF de ese día
+                fix:   fixHoy,    // FIX de ese día
+            };
+        });
 
         return {
             statusCode: 200,
