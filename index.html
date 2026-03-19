@@ -264,9 +264,9 @@
                 <thead>
                     <tr>
                         <th>Fecha</th>
-                        <th>Para Pagos</th>
-                        <th>Pub. DOF</th>
                         <th>FIX</th>
+                        <th>Pub. DOF</th>
+                        <th>Para Pagos</th>
                     </tr>
                 </thead>
                 <tbody id="historial-container">
@@ -314,8 +314,10 @@
     function setVal(id, val, updId, label) {
         const el = $(id);
         if (!el) return;
-        const str = fmt4(val);
-        el.innerHTML = str ?? '<span style="color:var(--slate-300);font-style:italic">N/E</span>';
+        const str = (val !== null && val !== undefined) ? fmt4(val) : null;
+        el.innerHTML = str
+            ? str
+            : '<span style="color:var(--slate-300);font-style:italic;font-size:0.85em">N/E</span>';
         flashEl(el);
         if (updId && label) $(updId).textContent = label;
     }
@@ -355,9 +357,9 @@
             const isHoy  = i === 0;
             return `<tr class="${isHoy ? 'today' : ''}">
                 <td>${r.fecha}${isHoy ? ' <span style="font-size:0.6rem;color:var(--blue-600);font-weight:700;letter-spacing:0.05em">HOY</span>' : ''}</td>
-                <td class="${fPagos ? 'highlight' : 'ne'}">${fPagos ?? 'N/E'}</td>
-                <td class="${fDof ? '' : 'ne'}">${fDof ?? 'N/E'}</td>
                 <td class="${fFix ? '' : 'ne'}">${fFix ?? 'N/E'}</td>
+                <td class="${fDof ? '' : 'ne'}">${fDof ?? 'N/E'}</td>
+                <td class="${fPagos ? 'highlight' : 'ne'}">${fPagos ?? 'N/E'}</td>
             </tr>`;
         }).join('');
     }
