@@ -1,9 +1,3 @@
-// netlify/functions/banxico.js
-// SF43718 = FIX / Pub. DOF (mismo dato, diferente fecha de referencia)
-// SF60653 = Para Pagos
-// Los fines de semana/festivos se generan manualmente con N/E en FIX y DOF,
-// heredando el último valor conocido de Pagos.
-
 const TOKEN  = '95c2453758a4e2d0f27c683b13af9d6f14566452847d9477e11053142ff0e043';
 const BASE   = 'https://www.banxico.org.mx/SieAPIRest/service/v1';
 const SERIES = 'SF60653,SF43718';
@@ -22,7 +16,7 @@ exports.handler = async () => {
         }
         function parseDate(ddmmyyyy) {
             const [dd,mm,yyyy] = ddmmyyyy.split('/');
-            return new Date(`${yyyy}-${mm}-${dd}`);
+            return new Date(`${yyyy}-${mm}-${dd}T12:00:00`);
         }
 
         const hoy    = new Date();
@@ -48,53 +42,54 @@ exports.handler = async () => {
         const fixData   = parseSerie('SF43718'); // más reciente primero
         const pagosData = parseSerie('SF60653');
 
+        // Set de fechas hábiles según SF43718 (días donde Banxico publicó FIX)
+        const diasHabiles = new Set(fixData.map(d => d.fecha));
+
         const fechaHoy = fmtDDMM(hoy);
 
         // ── Valores principales ───────────────────────────────────────────────
         const latestFix = fixData[0] ?? null;
         const latest = {
-            fix:   latestFix?.fecha === fechaHoy ? latestFix : { fecha: fechaHoy, valor: null },
+            // FIX hoy: solo si hoy es día hábil y tiene dato
+            fix:   { fecha: fechaHoy, valor: latestFix?.fecha === fechaHoy ? latestFix.valor : null },
+            // DOF hoy: siempre es el último FIX publicado (de ayer o último día hábil)
             dof:   latestFix,
             pagos: pagosData[0] ?? null,
         };
 
-        // ── Historial: generar los últimos 7 días calendario desde hoy ────────
-        // Para cada día buscamos en los datos de la API; si no existe = fin de semana/festivo
+        // ── Historial: 7 días calendario hacia atrás ──────────────────────────
         const historial = [];
         let ultimoPagos = null;
-
-        // Pre-cargar el último pagos conocido antes del rango visible
-        // (para heredar correctamente el primer fin de semana)
-        const todosPagos = [...pagosData]; // más reciente primero
 
         for (let i = 0; i < 7; i++) {
             const d = new Date(hoy);
             d.setDate(d.getDate() - i);
             const f = fmtDDMM(d);
 
-            const fixVal   = fixData.find(x => x.fecha === f)?.valor   ?? null;
-            const pagosObj = pagosData.find(x => x.fecha === f);
-            const dofObj   = fixData.find(x => x.fecha === f); // DOF de esta fecha = FIX de este día
+            const esDiaHabil = diasHabiles.has(f);
 
-            // DOF de esta fecha = FIX del día anterior más cercano con dato
-            // (porque Pub. DOF de hoy = FIX determinado ayer)
-            const dOfVal = (() => {
-                // buscar en fixData el primer registro con fecha < f
+            // FIX: solo en días hábiles
+            const fixVal = esDiaHabil
+                ? (fixData.find(x => x.fecha === f)?.valor ?? null)
+                : null;
+
+            // DOF: solo en días hábiles, y es el FIX del día hábil ANTERIOR
+            let dofVal = null;
+            if (esDiaHabil) {
                 const entry = fixData.find(x => parseDate(x.fecha) < parseDate(f) && x.valor !== null);
-                return entry?.valor ?? null;
-            })();
+                dofVal = entry?.valor ?? null;
+            }
 
-            // Para Pagos: valor directo o heredar último conocido
-            let pagosVal = pagosObj?.valor ?? null;
-            if (pagosVal !== null) ultimoPagos = pagosVal;
-            else pagosVal = ultimoPagos ?? (todosPagos.find(x => parseDate(x.fecha) < parseDate(f) && x.valor !== null)?.valor ?? null);
+            // Pagos: valor directo si existe, si no hereda el último conocido
+            const pagosObj = pagosData.find(x => x.fecha === f);
+            if (pagosObj?.valor != null) ultimoPagos = pagosObj.valor;
+            else if (ultimoPagos === null) {
+                // buscar el más reciente anterior
+                const ant = pagosData.find(x => parseDate(x.fecha) < parseDate(f) && x.valor !== null);
+                if (ant) ultimoPagos = ant.valor;
+            }
 
-            historial.push({
-                fecha: f,
-                fix:   fixVal,
-                dof:   dOfVal,
-                pagos: pagosVal,
-            });
+            historial.push({ fecha: f, fix: fixVal, dof: dofVal, pagos: ultimoPagos });
         }
 
         return {
