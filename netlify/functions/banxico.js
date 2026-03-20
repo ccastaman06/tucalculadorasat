@@ -1,8 +1,4 @@
 // api/banxico.js — Vercel Serverless Function
-// SF43718 = FIX (fecha de determinación)
-// SF60653 = Para Pagos (fecha de liquidación)
-// Pub. DOF = SF43718 del día hábil anterior
-
 const TOKEN  = '95c2453758a4e2d0f27c683b13af9d6f14566452847d9477e11053142ff0e043';
 const BASE   = 'https://www.banxico.org.mx/SieAPIRest/service/v1';
 const SERIES = 'SF60653,SF43718';
@@ -21,8 +17,14 @@ export default async function handler(req, res) {
             const [dd,mm,yyyy] = ddmmyyyy.split('/');
             return new Date(`${yyyy}-${mm}-${dd}T12:00:00`);
         }
+        // Fecha en hora de México (UTC-6) para evitar desfase en servidor Vercel
+        function fechaMexico() {
+            const now = new Date();
+            const mx  = new Date(now.toLocaleString('en-US', { timeZone: 'America/Mexico_City' }));
+            return mx;
+        }
 
-        const hoy    = new Date();
+        const hoy    = fechaMexico();
         const inicio = new Date(hoy);
         inicio.setDate(inicio.getDate() - 20);
 
@@ -42,11 +44,10 @@ export default async function handler(req, res) {
             }));
         }
 
-        const fixData   = parseSerie('SF43718'); // más reciente primero
+        const fixData   = parseSerie('SF43718');
         const pagosData = parseSerie('SF60653');
 
         // Días hábiles = fechas donde CUALQUIERA de las dos series tiene registro
-        // (FIX puede ser N/E pero el día sigue siendo hábil si Pagos tiene dato)
         const diasHabiles = new Set([
             ...fixData.map(d => d.fecha),
             ...pagosData.map(d => d.fecha),
@@ -56,11 +57,8 @@ export default async function handler(req, res) {
         // ── Valores principales ───────────────────────────────────────────────
         const latestFix = fixData[0] ?? null;
         const latest = {
-            // FIX: solo si el dato más reciente de SF43718 es exactamente de HOY
             fix:   { fecha: fechaHoy, valor: latestFix?.fecha === fechaHoy ? latestFix.valor : null },
-            // Pub. DOF: siempre el último FIX publicado (ayer o último día hábil)
             dof:   latestFix,
-            // Para Pagos: último dato de SF60653
             pagos: pagosData[0] ?? null,
         };
 
@@ -75,19 +73,16 @@ export default async function handler(req, res) {
 
             const esDiaHabil = diasHabiles.has(f);
 
-            // FIX: solo en días hábiles, y solo si SF43718 tiene dato de ese día
             const fixVal = esDiaHabil
                 ? (fixData.find(x => x.fecha === f)?.valor ?? null)
                 : null;
 
-            // DOF: solo en días hábiles = último FIX publicado anterior a esta fecha
             let dofVal = null;
             if (esDiaHabil) {
                 const entry = fixData.find(x => parseDate(x.fecha) < parseDate(f) && x.valor !== null);
                 dofVal = entry?.valor ?? null;
             }
 
-            // Para Pagos: valor directo o hereda el último conocido (fines de semana)
             const pagosObj = pagosData.find(x => x.fecha === f);
             if (pagosObj?.valor != null) {
                 ultimoPagos = pagosObj.valor;
@@ -99,7 +94,7 @@ export default async function handler(req, res) {
             historial.push({ fecha: f, fix: fixVal, dof: dofVal, pagos: ultimoPagos });
         }
 
-        res.status(200).json({ ok: true, latest, historial });
+        res.status(200).json({ ok: true, latest, historial, debug_fechaHoy: fechaHoy });
 
     } catch (err) {
         console.error('Error Banxico:', err.message);
