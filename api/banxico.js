@@ -17,7 +17,6 @@ export default async function handler(req, res) {
             const [dd,mm,yyyy] = ddmmyyyy.split('/');
             return new Date(`${yyyy}-${mm}-${dd}T12:00:00`);
         }
-        // Fecha en hora de México (UTC-6) para evitar desfase en servidor Vercel
         function fechaMexico() {
             const now = new Date();
             const mx  = new Date(now.toLocaleString('en-US', { timeZone: 'America/Mexico_City' }));
@@ -47,11 +46,16 @@ export default async function handler(req, res) {
         const fixData   = parseSerie('SF43718');
         const pagosData = parseSerie('SF60653');
 
-        // Días hábiles = fechas donde CUALQUIERA de las dos series tiene registro
+        // Días donde SF43718 tiene registro (para FIX y DOF)
+        // FIX y DOF solo existen en días hábiles bancarios según SF43718
+        const diasConFix = new Set(fixData.map(d => d.fecha));
+
+        // Días hábiles para Pagos = ambas series (Para Pagos existe en más días)
         const diasHabiles = new Set([
             ...fixData.map(d => d.fecha),
             ...pagosData.map(d => d.fecha),
         ]);
+
         const fechaHoy = fmtDDMM(hoy);
 
         // ── Valores principales ───────────────────────────────────────────────
@@ -71,18 +75,20 @@ export default async function handler(req, res) {
             d.setDate(d.getDate() - i);
             const f = fmtDDMM(d);
 
-            const esDiaHabil = diasHabiles.has(f);
-
-            const fixVal = esDiaHabil
+            // FIX: solo si SF43718 tiene registro para ese día exacto
+            const fixVal = diasConFix.has(f)
                 ? (fixData.find(x => x.fecha === f)?.valor ?? null)
                 : null;
 
+            // DOF: solo si SF43718 tiene registro para ese día
+            // = último FIX publicado anterior a esa fecha
             let dofVal = null;
-            if (esDiaHabil) {
+            if (diasConFix.has(f)) {
                 const entry = fixData.find(x => parseDate(x.fecha) < parseDate(f) && x.valor !== null);
                 dofVal = entry?.valor ?? null;
             }
 
+            // Para Pagos: valor directo o hereda el último conocido
             const pagosObj = pagosData.find(x => x.fecha === f);
             if (pagosObj?.valor != null) {
                 ultimoPagos = pagosObj.valor;
@@ -94,7 +100,7 @@ export default async function handler(req, res) {
             historial.push({ fecha: f, fix: fixVal, dof: dofVal, pagos: ultimoPagos });
         }
 
-        res.status(200).json({ ok: true, latest, historial, debug_fechaHoy: fechaHoy });
+        res.status(200).json({ ok: true, latest, historial });
 
     } catch (err) {
         console.error('Error Banxico:', err.message);
