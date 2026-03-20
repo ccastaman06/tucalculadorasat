@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://tucalculadorasat.com/sitemap.xml
