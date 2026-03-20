@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- ── SEO Primario ─────────────────────────────────────────────────── -->
@@ -155,6 +156,16 @@
 </head>
 <body>
 <div class="page-wrap max-w-5xl mx-auto px-4 py-8">
+
+    <!-- Nav -->
+    <nav class="flex items-center justify-between mb-6 py-3 border-b border-slate-100">
+        <a href="/" class="font-display text-lg font-black text-slate-900">Calculadora <span class="text-blue-600">SAT</span></a>
+        <div class="flex items-center gap-5">
+            <a href="/acerca.html" style="font-size:0.8rem;font-weight:600;color:var(--slate-500);text-decoration:none;" onmouseover="this.style.color='#2563eb'" onmouseout="this.style.color='var(--slate-500)'">Acerca</a>
+            <a href="/terminos.html" style="font-size:0.8rem;font-weight:600;color:var(--slate-500);text-decoration:none;" onmouseover="this.style.color='#2563eb'" onmouseout="this.style.color='var(--slate-500)'">Términos</a>
+            <a href="/contacto.html" style="font-size:0.8rem;font-weight:600;color:var(--slate-500);text-decoration:none;" onmouseover="this.style.color='#2563eb'" onmouseout="this.style.color='var(--slate-500)'">Contacto</a>
+        </div>
+    </nav>
 
     <!-- Ad Top -->
     <div class="ad-slot mb-8 fade-up">Tu Publicidad Aquí (Espacio para Google AdSense)</div>
@@ -328,11 +339,30 @@
         </div>
     </div>
 
+    <!-- Sección explicativa SEO -->
+    <div class="card p-8 mb-8 fade-up">
+        <h2 class="text-lg font-bold text-slate-800 mb-4">¿Qué es el tipo de cambio SAT y cuándo se usa?</h2>
+        <div class="space-y-3 text-sm text-slate-500 leading-relaxed">
+            <p>El <strong class="text-slate-700">tipo de cambio SAT</strong> es el valor oficial utilizado en México para convertir dólares estadounidenses (USD) a pesos mexicanos (MXN) al momento de cumplir obligaciones fiscales ante el Servicio de Administración Tributaria (SAT). Este tipo de cambio es determinado y publicado por el <strong class="text-slate-700">Banco de México (Banxico)</strong> con fundamento en la Ley Monetaria de los Estados Unidos Mexicanos.</p>
+            <p>El valor que debes usar <strong class="text-slate-700">hoy para pagos</strong> es el publicado en el Diario Oficial de la Federación (DOF) el día hábil bancario inmediato anterior. Por ejemplo, si hoy es lunes, debes usar el tipo de cambio publicado el viernes anterior. Si hay un día festivo de por medio, se usa el último día hábil disponible.</p>
+            <p>Para la <strong class="text-slate-700">emisión de facturas (CFDI) en dólares</strong>, el SAT establece que debes registrar el equivalente en pesos usando el tipo de cambio DOF del día en que se realiza la operación, conforme al artículo 8° de la Ley Monetaria y las disposiciones del Código Fiscal de la Federación.</p>
+            <p>El <strong class="text-slate-700">FIX Banxico</strong> es la referencia base: se determina cada día hábil a las 12:00 hrs, se publica en el DOF al día siguiente, y ese valor publicado en DOF es el que aplica para pagos al día siguiente de la publicación. Esta cadena de un día hábil de diferencia es la razón por la que los tres valores que mostramos son distintos entre sí.</p>
+        </div>
+    </div>
+
+    <!-- Disclaimer -->
+    <div style="background:rgba(59,130,246,0.05);border:1px solid rgba(59,130,246,0.15);border-radius:0.875rem;padding:1rem 1.25rem;font-size:0.75rem;color:var(--slate-500);line-height:1.6;margin-bottom:2rem;">
+        <strong style="color:var(--slate-700);">Aviso importante:</strong> La información presentada en este sitio es de carácter informativo y auxiliar. Los tipos de cambio se obtienen de la API oficial del Banco de México (Banxico). Este sitio no es una fuente oficial del SAT ni del DOF. <strong style="color:var(--slate-700);">Siempre consulte a un contador o asesor fiscal certificado para confirmar el cumplimiento de sus obligaciones fiscales.</strong>
+    </div>
+
     <!-- Ad Bottom -->
     <div class="ad-slot mb-8">Tu Publicidad Aquí (Espacio Inferior)</div>
 
     <footer class="text-center text-slate-300 text-[9px] uppercase tracking-[0.3em] pb-10">
         tucalculadorasat.com &copy; 2026 &nbsp;·&nbsp; Datos vía API Banxico SIE &nbsp;·&nbsp;
+        <a href="/acerca.html" class="hover:text-slate-400">Acerca</a> &nbsp;·&nbsp;
+        <a href="/terminos.html" class="hover:text-slate-400">Términos</a> &nbsp;·&nbsp;
+        <a href="/contacto.html" class="hover:text-slate-400">Contacto</a> &nbsp;·&nbsp;
         <span id="footer-ts"></span>
     </footer>
 
