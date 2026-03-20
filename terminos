@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Términos de Uso | tucalculadorasat.com</title>
+    <meta name="description" content="Términos de uso de tucalculadorasat.com. Información sobre el uso de la herramienta de tipo de cambio SAT.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://tucalculadorasat.com/terminos.html">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --slate-50:#f8fafc;--slate-100:#f1f5f9;--slate-200:#e2e8f0;
+            --slate-300:#cbd5e1;--slate-400:#94a3b8;--slate-500:#64748b;
+            --slate-600:#475569;--slate-700:#334155;--slate-800:#1e293b;--slate-900:#0f172a;
+            --blue-500:#3b82f6;--blue-600:#2563eb;--blue-700:#1d4ed8;
+        }
+        * { box-sizing: border-box; }
+        body { background-color: var(--slate-50); font-family: "Inter", sans-serif; color: var(--slate-800); min-height: 100vh; }
+        body::before { content:""; position:fixed; inset:0; background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(59,130,246,0.08) 0%, transparent 60%); pointer-events:none; z-index:0; }
+        .page-wrap { position:relative; z-index:1; }
+        .font-display { font-family:"Syne",sans-serif; }
+        .card { background:#fff; border-radius:1.25rem; border:1px solid var(--slate-200); box-shadow:0 4px 24px -4px rgba(15,23,42,0.07); }
+        .nav-link { font-size:0.8rem; font-weight:600; color:var(--slate-500); text-decoration:none; transition:color 0.15s; }
+        .nav-link:hover { color:var(--blue-600); }
+        .nav-link.active { color:var(--blue-600); }
+        .disclaimer { background:rgba(59,130,246,0.05); border:1px solid rgba(59,130,246,0.15); border-radius:0.875rem; padding:1rem 1.25rem; font-size:0.75rem; color:var(--slate-500); line-height:1.6; }
+        .disclaimer strong { color:var(--slate-700); }
+    </style>
+</head>
+<body>
+<div class="page-wrap max-w-3xl mx-auto px-4 py-8">
+    <nav class="flex items-center justify-between mb-8 py-3 border-b border-slate-100">
+        <a href="/" class="font-display text-lg font-black text-slate-900">Calculadora <span style="color:var(--blue-600)">SAT</span></a>
+        <div class="flex items-center gap-5">
+            <a href="/" class="nav-link">Inicio</a>
+            <a href="/acerca.html" class="nav-link">Acerca</a>
+            <a href="/terminos.html" class="nav-link">Términos</a>
+            <a href="/contacto.html" class="nav-link">Contacto</a>
+        </div>
+    </nav>
+
+    <header class="mb-8">
+        <p class="text-xs font-semibold text-blue-600 uppercase tracking-[0.25em] mb-2">Legal</p>
+        <h1 class="font-display text-3xl font-black text-slate-900 mb-3">Términos de Uso</h1>
+        <p class="text-slate-400 text-sm">Última actualización: marzo 2026</p>
+    </header>
+
+    <div class="card p-8 mb-6 space-y-6">
+        <div>
+            <h2 class="text-base font-bold text-slate-800 mb-2">1. Aceptación de términos</h2>
+            <p class="text-slate-500 text-sm leading-relaxed">Al acceder y utilizar tucalculadorasat.com, usted acepta los presentes términos de uso. Si no está de acuerdo con alguno de estos términos, le pedimos que no utilice este sitio.</p>
+        </div>
+        <div>
+            <h2 class="text-base font-bold text-slate-800 mb-2">2. Naturaleza del servicio</h2>
+            <p class="text-slate-500 text-sm leading-relaxed">tucalculadorasat.com es una herramienta informativa y de referencia que obtiene datos del tipo de cambio directamente de la API oficial del Banco de México (Banxico). Este sitio <strong>no es</strong> una fuente oficial del Servicio de Administración Tributaria (SAT), del Banco de México, ni del Diario Oficial de la Federación (DOF).</p>
+        </div>
+        <div>
+            <h2 class="text-base font-bold text-slate-800 mb-2">3. Limitación de responsabilidad</h2>
+            <p class="text-slate-500 text-sm leading-relaxed">La información proporcionada en este sitio es de carácter auxiliar y orientativo. tucalculadorasat.com no se hace responsable por decisiones fiscales, contables, financieras o legales tomadas con base en la información aquí presentada. Para efectos fiscales oficiales, consulte siempre las fuentes primarias: el Diario Oficial de la Federación (dof.gob.mx) y el Banco de México (banxico.org.mx).</p>
+        </div>
+        <div>
+            <h2 class="text-base font-bold text-slate-800 mb-2">4. Exactitud de la información</h2>
+            <p class="text-slate-500 text-sm leading-relaxed">Aunque nos esforzamos por mantener la información actualizada y precisa, los datos se obtienen de terceros (API de Banxico) y pueden presentar retrasos o discrepancias. Recomendamos siempre verificar los valores en las fuentes oficiales antes de utilizarlos en declaraciones o trámites fiscales.</p>
+        </div>
+        <div>
+            <h2 class="text-base font-bold text-slate-800 mb-2">5. Publicidad</h2>
+            <p class="text-slate-500 text-sm leading-relaxed">Este sitio utiliza Google AdSense para mostrar publicidad. Los anuncios son administrados por Google y su contenido no está bajo el control de tucalculadorasat.com. Para más información sobre cómo Google utiliza los datos, consulte la Política de Privacidad de Google.</p>
+        </div>
+        <div>
+            <h2 class="text-base font-bold text-slate-800 mb-2">6. Propiedad intelectual</h2>
+            <p class="text-slate-500 text-sm leading-relaxed">El diseño, código y contenido original de tucalculadorasat.com son propiedad de sus creadores. Los datos del tipo de cambio son de dominio público y provienen del Banco de México.</p>
+        </div>
+        <div>
+            <h2 class="text-base font-bold text-slate-800 mb-2">7. Modificaciones</h2>
+            <p class="text-slate-500 text-sm leading-relaxed">Nos reservamos el derecho de modificar estos términos en cualquier momento. Las modificaciones entrarán en vigor al momento de su publicación en este sitio.</p>
+        </div>
+    </div>
+
+    <div class="disclaimer mb-6">
+        <strong>Recuerde:</strong> Este sitio es una herramienta de consulta auxiliar. <strong>Siempre consulte a un contador o asesor fiscal certificado para confirmar el cumplimiento de sus obligaciones fiscales ante el SAT.</strong>
+    </div>
+
+    <footer class="text-center mt-12 pb-10 border-t border-slate-100 pt-8">
+        <div class="disclaimer max-w-2xl mx-auto mb-6">
+            <strong>Aviso importante:</strong> La información presentada en este sitio es de carácter informativo y auxiliar. Los tipos de cambio provienen de la API oficial del Banco de México (Banxico). Este sitio no es una fuente oficial del SAT ni del DOF. <strong>Siempre consulte a un contador o asesor fiscal certificado para confirmar el cumplimiento de sus obligaciones fiscales.</strong>
+        </div>
+        <p class="text-slate-300 text-[9px] uppercase tracking-[0.3em]">
+            tucalculadorasat.com &copy; 2026 &nbsp;·&nbsp; Datos vía API Banxico SIE &nbsp;·&nbsp;
+            <a href="/terminos.html" class="hover:text-slate-400">Términos</a> &nbsp;·&nbsp;
+            <a href="/acerca.html" class="hover:text-slate-400">Acerca</a> &nbsp;·&nbsp;
+            <a href="/contacto.html" class="hover:text-slate-400">Contacto</a>
+        </p>
+    </footer>
+</div>
+</body>
+</html>
