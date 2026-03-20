@@ -42,10 +42,10 @@ export default async function handler(req, res) {
             }));
         }
 
-        const fixData   = parseSerie('SF43718');
+        const fixData   = parseSerie('SF43718'); // más reciente primero
         const pagosData = parseSerie('SF60653');
 
-        // Días donde SF43718 tiene registro (para FIX)
+        // Días donde SF43718 tiene registro
         const diasConFix = new Set(fixData.map(d => d.fecha));
 
         // Días hábiles para Pagos = ambas series
@@ -57,13 +57,14 @@ export default async function handler(req, res) {
         const fechaHoy = fmtDDMM(hoy);
 
         // ── Valores principales ───────────────────────────────────────────────
-        const latestFix = fixData[0] ?? null;
+        const fixHoy = fixData[0]?.fecha === fechaHoy ? fixData[0] : null;
+
+        // DOF hoy = FIX del día hábil ANTERIOR a hoy (no el de hoy)
+        const dofHoy = fixData.find(x => parseDate(x.fecha) < parseDate(fechaHoy) && x.valor !== null) ?? null;
+
         const latest = {
-            // FIX: solo si SF43718 tiene dato de HOY exacto
-            fix:   { fecha: fechaHoy, valor: latestFix?.fecha === fechaHoy ? latestFix.valor : null },
-            // DOF: siempre el último FIX publicado (ayer o último día hábil)
-            dof:   latestFix,
-            // Para Pagos: último dato de SF60653
+            fix:   { fecha: fechaHoy, valor: fixHoy?.valor ?? null },
+            dof:   dofHoy,
             pagos: pagosData[0] ?? null,
         };
 
@@ -76,17 +77,16 @@ export default async function handler(req, res) {
             d.setDate(d.getDate() - i);
             const f = fmtDDMM(d);
 
-            const esDiaHabil = diasHabiles.has(f);
-
             // FIX: solo si SF43718 tiene registro para ese día exacto
             const fixVal = diasConFix.has(f)
                 ? (fixData.find(x => x.fecha === f)?.valor ?? null)
                 : null;
 
-            // DOF: en días hábiles = último FIX publicado anterior a esa fecha
-            // Para HOY: aunque FIX sea N/E, DOF es el último FIX conocido
+            // DOF: solo si SF43718 tiene registro para ese día (día hábil bancario)
+            // = último FIX con valor anterior a esa fecha
+            // En fines de semana diasConFix no tiene la fecha → dofVal = null
             let dofVal = null;
-            if (esDiaHabil) {
+            if (diasConFix.has(f)) {
                 const entry = fixData.find(x => parseDate(x.fecha) < parseDate(f) && x.valor !== null);
                 dofVal = entry?.valor ?? null;
             }
