@@ -3,7 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dólar SAT Hoy | Tipo de Cambio Oficial Banxico</title>
+
+    <!-- ── SEO Primario ─────────────────────────────────────────────────── -->
+    <title>Dólar SAT Hoy | Tipo de Cambio Oficial Banxico DOF</title>
+    <meta name="description" content="Consulta el tipo de cambio SAT hoy: FIX Banxico, Publicación DOF y Para Pagos. Datos oficiales en tiempo real para liquidar obligaciones en dólares ante el SAT.">
+    <meta name="keywords" content="dólar SAT hoy, tipo de cambio SAT, tipo de cambio DOF, dólar FIX Banxico, tipo de cambio para pagos, calculadora SAT dólares pesos">
+    <meta name="author" content="tucalculadorasat.com">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://tucalculadorasat.com/">
+
+    <!-- ── Open Graph (redes sociales) ─────────────────────────────────── -->
+    <meta property="og:title" content="Dólar SAT Hoy | Tipo de Cambio Oficial Banxico">
+    <meta property="og:description" content="Tipo de cambio SAT oficial: FIX, Publicación DOF y Para Pagos. Datos en tiempo real de Banxico para cumplir obligaciones fiscales en USD.">
+    <meta property="og:url" content="https://tucalculadorasat.com/">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="es_MX">
+    <meta property="og:site_name" content="Calculadora SAT">
+
+    <!-- ── Twitter Card ─────────────────────────────────────────────────── -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Dólar SAT Hoy | Tipo de Cambio Oficial Banxico">
+    <meta name="twitter:description" content="Consulta el tipo de cambio SAT hoy. FIX, DOF y Para Pagos actualizados desde Banxico.">
+
+    <!-- ── Schema.org structured data ──────────────────────────────────── -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "name": "Calculadora Dólar SAT",
+          "url": "https://tucalculadorasat.com/",
+          "description": "Herramienta para consultar el tipo de cambio oficial SAT (FIX Banxico, Publicación DOF y Para Pagos) y convertir dólares a pesos mexicanos.",
+          "applicationCategory": "FinanceApplication",
+          "operatingSystem": "Web",
+          "inLanguage": "es-MX",
+          "offers": { "@type": "Offer", "price": "0", "priceCurrency": "MXN" }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "¿Cuál es el tipo de cambio SAT hoy?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "El tipo de cambio SAT 'Para Pagos' es el publicado por Banxico en el Diario Oficial de la Federación (DOF) el día hábil bancario inmediato anterior. Este es el tipo de cambio que debes usar hoy para liquidar obligaciones en dólares ante el SAT."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "¿Cuál es la diferencia entre FIX, Publicación DOF y Para Pagos?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "El FIX es determinado por Banxico a las 12:00 hrs de cada día hábil. La Publicación DOF es ese mismo FIX publicado al día siguiente en el Diario Oficial. Para Pagos es el tipo de cambio vigente hoy para cumplir obligaciones en USD, que corresponde a la Publicación DOF del día hábil anterior."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "¿Qué tipo de cambio uso para emitir facturas en dólares?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Para emitir facturas (CFDI) en dólares debes usar el tipo de cambio publicado en el DOF del día en que se realiza la operación. Este corresponde al valor 'Publicación DOF' que se muestra en esta página."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "¿Dónde puedo verificar el tipo de cambio oficial del SAT?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "El tipo de cambio oficial se puede consultar directamente en el Banco de México (Banxico) en su Sistema de Información Económica (SIE) o en el Diario Oficial de la Federación. Esta página obtiene los datos directamente de la API oficial de Banxico."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -17,144 +94,63 @@
             --blue-600: #2563eb; --blue-700: #1d4ed8;
         }
         * { box-sizing: border-box; }
-        body {
-            background-color: var(--slate-50);
-            font-family: 'Inter', sans-serif;
-            color: var(--slate-800);
-            min-height: 100vh;
-        }
+        body { background-color: var(--slate-50); font-family: 'Inter', sans-serif; color: var(--slate-800); min-height: 100vh; }
         body::before {
-            content: '';
-            position: fixed; inset: 0;
-            background:
-                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(59,130,246,0.08) 0%, transparent 60%),
-                radial-gradient(ellipse 40% 30% at 80% 80%, rgba(99,102,241,0.05) 0%, transparent 50%);
+            content: ''; position: fixed; inset: 0;
+            background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(59,130,246,0.08) 0%, transparent 60%),
+                        radial-gradient(ellipse 40% 30% at 80% 80%, rgba(99,102,241,0.05) 0%, transparent 50%);
             pointer-events: none; z-index: 0;
         }
         .page-wrap { position: relative; z-index: 1; }
         .font-display { font-family: 'Syne', sans-serif; }
         .font-mono    { font-family: 'DM Mono', monospace; }
-
-        /* Cards */
-        .card {
-            background: #fff;
-            border-radius: 1.25rem;
-            border: 1px solid var(--slate-200);
-            box-shadow: 0 4px 24px -4px rgba(15,23,42,0.07), 0 1px 2px rgba(15,23,42,0.04);
-            transition: box-shadow 0.2s ease;
-        }
-        .card-hero {
-            background: linear-gradient(135deg, var(--blue-700) 0%, var(--blue-500) 100%);
-            border-radius: 1.5rem; border: none; color: #fff;
-            box-shadow: 0 12px 40px -8px rgba(37,99,235,0.45), 0 2px 8px rgba(37,99,235,0.2);
-        }
-
-        /* Input */
-        input[type=number]::-webkit-inner-spin-button,
-        input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; }
+        .card { background: #fff; border-radius: 1.25rem; border: 1px solid var(--slate-200); box-shadow: 0 4px 24px -4px rgba(15,23,42,0.07), 0 1px 2px rgba(15,23,42,0.04); transition: box-shadow 0.2s ease; }
+        .card-hero { background: linear-gradient(135deg, var(--blue-700) 0%, var(--blue-500) 100%); border-radius: 1.5rem; border: none; color: #fff; box-shadow: 0 12px 40px -8px rgba(37,99,235,0.45), 0 2px 8px rgba(37,99,235,0.2); }
+        input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; }
         input[type=number] { -moz-appearance: textfield; }
-        .calc-input {
-            width: 100%;
-            background: var(--slate-50);
-            border: 2px solid var(--slate-200);
-            border-radius: 0.875rem;
-            padding: 1rem 1.25rem 1rem 3.5rem;
-            font-family: 'DM Mono', monospace;
-            font-size: 2rem; font-weight: 500;
-            color: var(--blue-700);
-            outline: none;
-            transition: border-color 0.18s, background 0.18s, box-shadow 0.18s;
-        }
-        .calc-input:focus {
-            border-color: var(--blue-500);
-            background: #fff;
-            box-shadow: 0 0 0 4px rgba(59,130,246,0.12);
-        }
+        .calc-input { width: 100%; background: var(--slate-50); border: 2px solid var(--slate-200); border-radius: 0.875rem; padding: 1rem 1.25rem 1rem 3.5rem; font-family: 'DM Mono', monospace; font-size: 2rem; font-weight: 500; color: var(--blue-700); outline: none; transition: border-color 0.18s, background 0.18s, box-shadow 0.18s; }
+        .calc-input:focus { border-color: var(--blue-500); background: #fff; box-shadow: 0 0 0 4px rgba(59,130,246,0.12); }
         .calc-input::placeholder { color: var(--slate-300); }
-
-        /* Status */
-        .status-pill {
-            display: inline-flex; align-items: center; gap: 0.5rem;
-            background: #fff; border: 1px solid var(--slate-200);
-            border-radius: 9999px; padding: 0.35rem 0.9rem;
-            box-shadow: 0 2px 8px -2px rgba(15,23,42,0.06);
-        }
+        .status-pill { display: inline-flex; align-items: center; gap: 0.5rem; background: #fff; border: 1px solid var(--slate-200); border-radius: 9999px; padding: 0.35rem 0.9rem; box-shadow: 0 2px 8px -2px rgba(15,23,42,0.06); }
         .dot-wrap { position: relative; width: 10px; height: 10px; }
         .dot-ping { position: absolute; inset: 0; border-radius: 9999px; animation: ping 1.4s cubic-bezier(0,0,0.2,1) infinite; }
         .dot-core { position: absolute; inset: 1px; border-radius: 9999px; }
         @keyframes ping { 75%, 100% { transform: scale(2); opacity: 0; } }
-
-        /* Historial table */
         .hist-table { width: 100%; border-collapse: collapse; }
-        .hist-table thead th {
-            background: var(--slate-50);
-            padding: 0.6rem 1rem;
-            font-size: 0.6rem; font-weight: 700;
-            text-transform: uppercase; letter-spacing: 0.15em;
-            color: var(--slate-400);
-            border-bottom: 1px solid var(--slate-100);
-            text-align: right;
-        }
+        .hist-table thead th { background: var(--slate-50); padding: 0.6rem 1rem; font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: var(--slate-400); border-bottom: 1px solid var(--slate-100); text-align: right; }
         .hist-table thead th:first-child { text-align: left; }
-        .hist-table tbody tr {
-            border-bottom: 1px solid var(--slate-50);
-            transition: background 0.12s;
-        }
+        .hist-table tbody tr { border-bottom: 1px solid var(--slate-50); transition: background 0.12s; }
         .hist-table tbody tr:last-child { border-bottom: none; }
         .hist-table tbody tr:hover { background: var(--slate-50); }
         .hist-table tbody tr.today { background: rgba(59,130,246,0.04); }
-        .hist-table tbody td {
-            padding: 0.75rem 1rem;
-            font-family: 'DM Mono', monospace;
-            font-size: 0.8rem; font-weight: 500;
-            color: var(--slate-700);
-            text-align: right;
-        }
-        .hist-table tbody td:first-child {
-            font-family: 'Inter', sans-serif;
-            font-size: 0.75rem; color: var(--slate-500);
-            text-align: left; font-weight: 600;
-        }
+        .hist-table tbody td { padding: 0.75rem 1rem; font-family: 'DM Mono', monospace; font-size: 0.8rem; font-weight: 500; color: var(--slate-700); text-align: right; }
+        .hist-table tbody td:first-child { font-family: 'Inter', sans-serif; font-size: 0.75rem; color: var(--slate-500); text-align: left; font-weight: 600; }
         .hist-table tbody td.ne { color: var(--slate-300); font-style: italic; }
         .hist-table tbody td.highlight { color: var(--blue-600); font-weight: 600; }
-
-        /* Shimmer */
-        .shimmer {
-            background: linear-gradient(90deg, var(--slate-100) 25%, var(--slate-200) 50%, var(--slate-100) 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.4s infinite;
-            border-radius: 0.375rem; display: inline-block;
-        }
+        .shimmer { background: linear-gradient(90deg, var(--slate-100) 25%, var(--slate-200) 50%, var(--slate-100) 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 0.375rem; display: inline-block; }
         @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-
         @keyframes flashBlue { 0% { color: var(--blue-400); } 100% { color: inherit; } }
         .flash { animation: flashBlue 0.8s ease; }
-
-        /* Tooltip */
         .tooltip-wrap { position: relative; display: inline-block; }
-        .tooltip-wrap .tooltip {
-            visibility: hidden; opacity: 0;
-            position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%);
-            background: var(--slate-800); color: #fff;
-            font-size: 0.6rem; line-height: 1.5; white-space: nowrap;
-            padding: 0.35rem 0.65rem; border-radius: 0.4rem;
-            transition: opacity 0.15s; pointer-events: none; z-index: 10;
-        }
+        .tooltip-wrap .tooltip { visibility: hidden; opacity: 0; position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%); background: var(--slate-800); color: #fff; font-size: 0.6rem; line-height: 1.5; white-space: nowrap; padding: 0.35rem 0.65rem; border-radius: 0.4rem; transition: opacity 0.15s; pointer-events: none; z-index: 10; }
         .tooltip-wrap:hover .tooltip { visibility: visible; opacity: 1; }
-
-        .ad-slot {
-            width: 100%; background: var(--slate-100);
-            border: 2px dashed var(--slate-200); border-radius: 0.875rem;
-            padding: 1.25rem; text-align: center; color: var(--slate-400);
-            font-size: 0.65rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
-        }
+        .ad-slot { width: 100%; background: var(--slate-100); border: 2px dashed var(--slate-200); border-radius: 0.875rem; padding: 1.25rem; text-align: center; color: var(--slate-400); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; }
         .updated-badge { font-size: 0.6rem; font-family: 'DM Mono', monospace; color: var(--slate-400); letter-spacing: 0.04em; }
-
         .fade-up { opacity: 0; transform: translateY(14px); animation: fadeUp 0.45s ease forwards; }
         @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
         .d1 { animation-delay: 0.05s; } .d2 { animation-delay: 0.12s; }
         .d3 { animation-delay: 0.18s; } .d4 { animation-delay: 0.26s; }
         .d5 { animation-delay: 0.34s; } .d6 { animation-delay: 0.40s; }
+        .d7 { animation-delay: 0.46s; }
+        /* FAQ */
+        .faq-item { border-bottom: 1px solid var(--slate-100); }
+        .faq-item:last-child { border-bottom: none; }
+        .faq-question { width: 100%; text-align: left; padding: 1.1rem 1.5rem; background: none; border: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-family: 'Inter', sans-serif; font-size: 0.875rem; font-weight: 600; color: var(--slate-700); transition: color 0.15s; }
+        .faq-question:hover { color: var(--blue-600); }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; padding: 0 1.5rem; font-size: 0.825rem; color: var(--slate-500); line-height: 1.7; }
+        .faq-answer.open { max-height: 200px; padding: 0 1.5rem 1.1rem; }
+        .faq-icon { font-size: 1.1rem; color: var(--slate-300); transition: transform 0.3s; flex-shrink: 0; }
+        .faq-icon.open { transform: rotate(45deg); color: var(--blue-500); }
     </style>
 </head>
 <body>
@@ -186,7 +182,7 @@
     <!-- 3 Value Cards -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8 fade-up d3">
 
-        <!-- Para Pagos -->
+        <!-- Para Pagos (hero) -->
         <div class="card-hero p-7 flex flex-col items-center text-center md:scale-105 md:z-10">
             <div class="tooltip-wrap">
                 <span class="text-[9px] font-bold uppercase tracking-[0.2em] mb-1 block opacity-80">Para Pagos (SAT)</span>
@@ -203,7 +199,7 @@
         <div class="card p-7 flex flex-col items-center text-center">
             <div class="tooltip-wrap">
                 <span class="text-[9px] font-bold text-blue-600 uppercase tracking-[0.2em] mb-1 block">Publicación DOF Hoy</span>
-                <span class="tooltip">FIX de ayer, publicado hoy en el DOF.<br>Serie SF60653 · Banxico</span>
+                <span class="tooltip">FIX de ayer publicado hoy en el DOF.<br>Serie SF43718 · Banxico</span>
             </div>
             <div id="valor-dof" class="font-mono text-4xl font-medium text-slate-800 my-2 tracking-tight">
                 <span class="shimmer" style="width:110px;height:40px;"></span>
@@ -228,10 +224,10 @@
 
     <!-- Calculator -->
     <div class="card p-8 mb-8 fade-up d4">
-        <h3 class="text-center text-[9px] font-bold text-slate-400 uppercase tracking-[0.3em] mb-6">Calculadora de Conversión USD → MXN</h3>
+        <h2 class="text-center text-[9px] font-bold text-slate-400 uppercase tracking-[0.3em] mb-6">Calculadora de Conversión USD → MXN</h2>
         <div class="max-w-md mx-auto mb-7 relative">
             <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm font-mono">USD</span>
-            <input type="number" id="input-usd" placeholder="0.00" min="0" class="calc-input">
+            <input type="number" id="input-usd" placeholder="0.00" min="0" class="calc-input" aria-label="Monto en dólares USD">
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div class="bg-blue-50 rounded-xl p-4 border border-blue-100 text-center">
@@ -249,14 +245,15 @@
         </div>
     </div>
 
-    <!-- History table — 3 columnas -->
+    <!-- History table -->
     <div class="card overflow-hidden mb-8 fade-up d5">
         <div class="bg-slate-50 px-7 py-4 border-b border-slate-100 flex items-center justify-between flex-wrap gap-2">
-            <h3 class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Historial — Últimos 7 días</h3>
+            <h2 class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Historial — Últimos 7 días</h2>
+            <!-- Leyenda en el mismo orden que las columnas: FIX → DOF → Pagos -->
             <div class="flex items-center gap-4 text-[8px] font-bold uppercase tracking-wider">
-                <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-blue-600 inline-block"></span>Para Pagos</span>
-                <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-slate-400 inline-block"></span>Pub. DOF</span>
                 <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-slate-300 inline-block"></span>FIX</span>
+                <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-slate-400 inline-block"></span>Pub. DOF</span>
+                <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-blue-600 inline-block"></span>Para Pagos</span>
             </div>
         </div>
         <div class="overflow-x-auto">
@@ -269,15 +266,70 @@
                         <th>Para Pagos</th>
                     </tr>
                 </thead>
-                <tbody id="historial-container">
-                    <!-- Populated by JS -->
-                </tbody>
+                <tbody id="historial-container"></tbody>
             </table>
         </div>
     </div>
 
+    <!-- Ad Middle -->
+    <div class="ad-slot mb-8 fade-up d6">Tu Publicidad Aquí (Espacio Intermedio)</div>
+
+    <!-- FAQ Section -->
+    <div class="card overflow-hidden mb-8 fade-up d7">
+        <div class="bg-slate-50 px-7 py-4 border-b border-slate-100">
+            <h2 class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Preguntas Frecuentes</h2>
+        </div>
+        <div id="faq-list">
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    ¿Cuál es el tipo de cambio SAT que debo usar hoy?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    El tipo de cambio que debes usar hoy para liquidar obligaciones en dólares ante el SAT es el valor <strong>"Para Pagos"</strong>, que corresponde al tipo de cambio publicado por Banxico en el Diario Oficial de la Federación (DOF) el día hábil bancario inmediato anterior.
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    ¿Cuál es la diferencia entre FIX, Publicación DOF y Para Pagos?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    El <strong>FIX</strong> es determinado por Banxico a las 12:00 hrs de cada día hábil. La <strong>Publicación DOF</strong> es ese mismo FIX publicado al día siguiente en el Diario Oficial. <strong>Para Pagos</strong> es el tipo de cambio vigente hoy, que corresponde a la Publicación DOF del día hábil anterior.
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    ¿Qué tipo de cambio uso para emitir facturas en dólares (CFDI)?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    Para emitir facturas (CFDI) en dólares debes usar el tipo de cambio publicado en el DOF del día en que se realiza la operación. Este corresponde al valor <strong>"Publicación DOF"</strong> que se muestra en esta página.
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    ¿Por qué el FIX aparece como N/E?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    El FIX se publica después de las 12:00 hrs en días hábiles bancarios. Si es fin de semana, día festivo, o aún no son las 12:00 hrs, el valor aparece como <strong>N/E (No Especificado)</strong>. En esos casos sigue siendo válido usar el último valor de "Para Pagos" disponible.
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    ¿De dónde provienen estos datos?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    Todos los datos se obtienen directamente de la <strong>API oficial del Banco de México (Banxico)</strong> a través de su Sistema de Información Económica (SIE). Las series consultadas son SF43718 (FIX) y SF60653 (Para Pagos).
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Ad Bottom -->
-    <div class="ad-slot mb-8 fade-up d6">Tu Publicidad Aquí (Espacio Inferior)</div>
+    <div class="ad-slot mb-8">Tu Publicidad Aquí (Espacio Inferior)</div>
 
     <footer class="text-center text-slate-300 text-[9px] uppercase tracking-[0.3em] pb-10">
         tucalculadorasat.com &copy; 2026 &nbsp;·&nbsp; Datos vía API Banxico SIE &nbsp;·&nbsp;
@@ -287,11 +339,9 @@
 </div>
 <script>
     // ─── Config ───────────────────────────────────────────────────────────────
-    // Llama a la Netlify Function (misma URL base), no a Banxico directamente
-    const API_URL = '/.netlify/functions/banxico';
-
-    const FALLBACK = { pagos: 17.9218, dof: 17.6922, fix: 17.6690 };
-    let VALS = { ...FALLBACK };
+    const API_URL  = '/api/banxico'; // Vercel function path
+    const FALLBACK = { pagos: 17.9218, dof: 17.6690, fix: null };
+    let VALS = { pagos: FALLBACK.pagos, dof: FALLBACK.dof, fix: FALLBACK.fix };
 
     const $ = id => document.getElementById(id);
 
@@ -306,11 +356,8 @@
             ? n.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
             : '—';
     }
-    function flashEl(el) {
-        el.classList.remove('flash');
-        void el.offsetWidth;
-        el.classList.add('flash');
-    }
+    function flashEl(el) { el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash'); }
+
     function setVal(id, val, updId, label) {
         const el = $(id);
         if (!el) return;
@@ -321,14 +368,11 @@
         flashEl(el);
         if (updId && label) $(updId).textContent = label;
     }
+
     function setStatus(state, msg) {
         $('status-text').textContent = msg;
         const core = $('dot-core'), ping = $('dot-ping');
-        const map = {
-            ok:      ['bg-green-500', 'bg-green-300'],
-            warn:    ['bg-amber-400', 'bg-amber-200'],
-            loading: ['bg-blue-500',  'bg-blue-300'],
-        };
+        const map = { ok: ['bg-green-500','bg-green-300'], warn: ['bg-amber-400','bg-amber-200'], loading: ['bg-blue-500','bg-blue-300'] };
         const [c, p] = map[state] ?? map.loading;
         core.className = `dot-core ${c}`;
         ping.className = `dot-ping ${p}`;
@@ -337,9 +381,9 @@
     // ─── Calculator ───────────────────────────────────────────────────────────
     function recalc() {
         const usd = parseFloat($('input-usd').value) || 0;
-        $('res-pagos').textContent = fmt2(usd * VALS.pagos);
-        $('res-dof').textContent   = fmt2(usd * VALS.dof);
-        $('res-fix').textContent   = fmt2(usd * VALS.fix);
+        $('res-pagos').textContent = fmt2(usd * (VALS.pagos ?? 0));
+        $('res-dof').textContent   = fmt2(usd * (VALS.dof   ?? 0));
+        $('res-fix').textContent   = VALS.fix ? fmt2(usd * VALS.fix) : '—';
     }
     $('input-usd').addEventListener('input', recalc);
 
@@ -351,20 +395,20 @@
             return;
         }
         tbody.innerHTML = rows.map((r, i) => {
-            const fPagos = fmt4(r.pagos);
-            const fDof   = fmt4(r.dof);
             const fFix   = fmt4(r.fix);
+            const fDof   = fmt4(r.dof);
+            const fPagos = fmt4(r.pagos);
             const isHoy  = i === 0;
             return `<tr class="${isHoy ? 'today' : ''}">
                 <td>${r.fecha}${isHoy ? ' <span style="font-size:0.6rem;color:var(--blue-600);font-weight:700;letter-spacing:0.05em">HOY</span>' : ''}</td>
-                <td class="${fFix ? '' : 'ne'}">${fFix ?? 'N/E'}</td>
-                <td class="${fDof ? '' : 'ne'}">${fDof ?? 'N/E'}</td>
+                <td class="${fFix   ? '' : 'ne'}">${fFix   ?? 'N/E'}</td>
+                <td class="${fDof   ? '' : 'ne'}">${fDof   ?? 'N/E'}</td>
                 <td class="${fPagos ? 'highlight' : 'ne'}">${fPagos ?? 'N/E'}</td>
             </tr>`;
         }).join('');
     }
 
-    // ─── Load data from Netlify Function ──────────────────────────────────────
+    // ─── Load data ────────────────────────────────────────────────────────────
     async function loadData() {
         setStatus('loading', 'Conectando con Banxico…');
         try {
@@ -376,22 +420,21 @@
             const { latest, historial } = data;
 
             VALS = {
-                pagos: latest.pagos?.valor ?? FALLBACK.pagos,
-                dof:   latest.dof?.valor   ?? FALLBACK.dof,
-                fix:   latest.fix?.valor   ?? FALLBACK.fix,
+                pagos: latest.pagos?.valor ?? null,
+                dof:   latest.dof?.valor   ?? null,
+                fix:   latest.fix?.valor   ?? null,
             };
 
             setVal('valor-pagos', VALS.pagos, 'upd-pagos', `Fecha: ${latest.pagos?.fecha ?? '—'}`);
             setVal('valor-dof',   VALS.dof,   'upd-dof',   `Fecha: ${latest.dof?.fecha  ?? '—'}`);
-            setVal('valor-fix',   VALS.fix,   'upd-fix',
-                latest.fix?.valor ? `Fecha: ${latest.fix.fecha}` : 'No disponible hoy (después de 12:00)');
+            setVal('valor-fix',   VALS.fix,   'upd-fix',   VALS.fix ? `Fecha: ${latest.fix.fecha}` : 'Disponible después de 12:00 hrs');
 
             renderHistorial(historial);
             recalc();
             setStatus('ok', 'Sincronizado con Banxico');
 
         } catch (err) {
-            console.warn('Error cargando datos:', err.message);
+            console.warn('Error:', err.message);
             VALS = { ...FALLBACK };
             setVal('valor-pagos', FALLBACK.pagos, 'upd-pagos', 'Dato de respaldo');
             setVal('valor-dof',   FALLBACK.dof,   'upd-dof',   'Dato de respaldo');
@@ -402,7 +445,19 @@
         }
     }
 
-    // ─── Footer timestamp ─────────────────────────────────────────────────────
+    // ─── FAQ toggle ───────────────────────────────────────────────────────────
+    function toggleFaq(btn) {
+        const answer = btn.nextElementSibling;
+        const icon   = btn.querySelector('.faq-icon');
+        const isOpen = answer.classList.contains('open');
+        // Cerrar todos
+        document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
+        document.querySelectorAll('.faq-icon').forEach(i => i.classList.remove('open'));
+        // Abrir el clickeado si estaba cerrado
+        if (!isOpen) { answer.classList.add('open'); icon.classList.add('open'); }
+    }
+
+    // ─── Footer ───────────────────────────────────────────────────────────────
     function updateFooter() {
         $('footer-ts').textContent = 'Actualizado ' +
             new Date().toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' });
