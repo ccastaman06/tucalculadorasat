@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Acerca de | tucalculadorasat.com</title>
+    <meta name="description" content="Acerca de tucalculadorasat.com — herramienta gratuita para consultar el tipo de cambio oficial SAT, FIX Banxico y Publicación DOF en tiempo real.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://tucalculadorasat.com/acerca.html">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --slate-50:#f8fafc;--slate-100:#f1f5f9;--slate-200:#e2e8f0;
+            --slate-300:#cbd5e1;--slate-400:#94a3b8;--slate-500:#64748b;
+            --slate-600:#475569;--slate-700:#334155;--slate-800:#1e293b;--slate-900:#0f172a;
+            --blue-500:#3b82f6;--blue-600:#2563eb;--blue-700:#1d4ed8;
+        }
+        * { box-sizing: border-box; }
+        body { background-color: var(--slate-50); font-family: "Inter", sans-serif; color: var(--slate-800); min-height: 100vh; }
+        body::before { content:""; position:fixed; inset:0; background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(59,130,246,0.08) 0%, transparent 60%); pointer-events:none; z-index:0; }
+        .page-wrap { position:relative; z-index:1; }
+        .font-display { font-family:"Syne",sans-serif; }
+        .card { background:#fff; border-radius:1.25rem; border:1px solid var(--slate-200); box-shadow:0 4px 24px -4px rgba(15,23,42,0.07); }
+        .nav-link { font-size:0.8rem; font-weight:600; color:var(--slate-500); text-decoration:none; transition:color 0.15s; }
+        .nav-link:hover { color:var(--blue-600); }
+        .nav-link.active { color:var(--blue-600); }
+        .disclaimer { background:rgba(59,130,246,0.05); border:1px solid rgba(59,130,246,0.15); border-radius:0.875rem; padding:1rem 1.25rem; font-size:0.75rem; color:var(--slate-500); line-height:1.6; }
+        .disclaimer strong { color:var(--slate-700); }
+    </style>
+</head>
+<body>
+<div class="page-wrap max-w-3xl mx-auto px-4 py-8">
+    <nav class="flex items-center justify-between mb-8 py-3 border-b border-slate-100">
+        <a href="/" class="font-display text-lg font-black text-slate-900">Calculadora <span style="color:var(--blue-600)">SAT</span></a>
+        <div class="flex items-center gap-5">
+            <a href="/" class="nav-link">Inicio</a>
+            <a href="/acerca.html" class="nav-link">Acerca</a>
+            <a href="/terminos.html" class="nav-link">Términos</a>
+            <a href="/contacto.html" class="nav-link">Contacto</a>
+        </div>
+    </nav>
+
+    <header class="mb-8">
+        <p class="text-xs font-semibold text-blue-600 uppercase tracking-[0.25em] mb-2">Sobre nosotros</p>
+        <h1 class="font-display text-3xl font-black text-slate-900 mb-3">Acerca de tucalculadorasat.com</h1>
+        <p class="text-slate-400 text-sm">Herramienta gratuita para contadores, administradores y empresas en México</p>
+    </header>
+
+    <div class="card p-8 mb-6">
+        <h2 class="text-lg font-bold text-slate-800 mb-3">¿Qué es tucalculadorasat.com?</h2>
+        <p class="text-slate-600 text-sm leading-relaxed mb-4">
+            tucalculadorasat.com es una herramienta web gratuita diseñada para facilitar la consulta del tipo de cambio oficial utilizado para liquidar obligaciones denominadas en dólares estadounidenses (USD) ante el Servicio de Administración Tributaria (SAT) de México.
+        </p>
+        <p class="text-slate-600 text-sm leading-relaxed">
+            Nuestro sitio obtiene los datos directamente de la <strong>API oficial del Banco de México (Banxico)</strong> a través de su Sistema de Información Económica (SIE), garantizando que los valores mostrados sean los mismos que publica el Diario Oficial de la Federación (DOF).
+        </p>
+    </div>
+
+    <div class="card p-8 mb-6">
+        <h2 class="text-lg font-bold text-slate-800 mb-3">¿Qué información mostramos?</h2>
+        <div class="space-y-4">
+            <div class="border-l-4 border-blue-600 pl-4">
+                <h3 class="font-bold text-slate-700 text-sm mb-1">Para Pagos (SAT)</h3>
+                <p class="text-slate-500 text-sm leading-relaxed">El tipo de cambio vigente hoy para cumplir obligaciones en dólares ante el SAT. Corresponde al FIX publicado en el DOF el día hábil bancario inmediato anterior. Fundamento legal: Art. 8° de la Ley Monetaria de los EUA, Art. 35 de la Ley del Banco de México.</p>
+            </div>
+            <div class="border-l-4 border-slate-400 pl-4">
+                <h3 class="font-bold text-slate-700 text-sm mb-1">Publicación DOF</h3>
+                <p class="text-slate-500 text-sm leading-relaxed">El tipo de cambio FIX determinado el día hábil anterior, publicado hoy en el Diario Oficial de la Federación. Es el valor de referencia para facturas (CFDI) emitidas en dólares.</p>
+            </div>
+            <div class="border-l-4 border-slate-300 pl-4">
+                <h3 class="font-bold text-slate-700 text-sm mb-1">Dólar FIX Banxico</h3>
+                <p class="text-slate-500 text-sm leading-relaxed">Tipo de cambio determinado por Banxico a las 12:00 hrs de cada día hábil bancario, con base en cotizaciones del mercado de cambios al mayoreo. Se publica en el DOF al día hábil siguiente.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card p-8 mb-6">
+        <h2 class="text-lg font-bold text-slate-800 mb-3">Base legal</h2>
+        <p class="text-slate-600 text-sm leading-relaxed mb-3">El tipo de cambio SAT se rige por las siguientes disposiciones legales:</p>
+        <ul class="space-y-2 text-sm text-slate-500">
+            <li class="flex gap-2"><span class="text-blue-500 font-bold">·</span>Artículo 8° de la Ley Monetaria de los Estados Unidos Mexicanos</li>
+            <li class="flex gap-2"><span class="text-blue-500 font-bold">·</span>Artículo 35 de la Ley del Banco de México</li>
+            <li class="flex gap-2"><span class="text-blue-500 font-bold">·</span>Artículos 8° y 10 del Reglamento Interior del Banco de México</li>
+            <li class="flex gap-2"><span class="text-blue-500 font-bold">·</span>Título Tercero, Capítulo V de la Circular 3/2012 del Banco de México</li>
+        </ul>
+    </div>
+
+    <div class="disclaimer mb-6">
+        <strong>Aviso importante:</strong> La información presentada en este sitio es de carácter informativo y auxiliar. Este sitio no es una fuente oficial del SAT ni del DOF. <strong>Siempre consulte a un contador o asesor fiscal certificado para confirmar el cumplimiento de sus obligaciones fiscales ante el SAT.</strong>
+    </div>
+
+    <footer class="text-center mt-12 pb-10 border-t border-slate-100 pt-8">
+        <div class="disclaimer max-w-2xl mx-auto mb-6">
+            <strong>Aviso importante:</strong> La información presentada en este sitio es de carácter informativo y auxiliar. Los tipos de cambio provienen de la API oficial del Banco de México (Banxico). Este sitio no es una fuente oficial del SAT ni del DOF. <strong>Siempre consulte a un contador o asesor fiscal certificado para confirmar el cumplimiento de sus obligaciones fiscales.</strong>
+        </div>
+        <p class="text-slate-300 text-[9px] uppercase tracking-[0.3em]">
+            tucalculadorasat.com &copy; 2026 &nbsp;·&nbsp; Datos vía API Banxico SIE &nbsp;·&nbsp;
+            <a href="/terminos.html" class="hover:text-slate-400">Términos</a> &nbsp;·&nbsp;
+            <a href="/acerca.html" class="hover:text-slate-400">Acerca</a> &nbsp;·&nbsp;
+            <a href="/contacto.html" class="hover:text-slate-400">Contacto</a>
+        </p>
+    </footer>
+</div>
+</body>
+</html>
