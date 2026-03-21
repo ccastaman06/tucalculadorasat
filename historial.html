@@ -204,34 +204,11 @@
         const key = `${year}-${month}`;
         if (cache[key]) return cache[key];
 
-        const start = new Date(year, month - 1, 1);
-        const end   = new Date(year, month, 0); // last day of month
+        const res  = await fetch(`/api/banxico-mes?year=${year}&month=${month}`);
+        const data = await res.json();
+        if (!data.ok) throw new Error(data.error);
 
-        const token = '95c2453758a4e2d0f27c683b13af9d6f14566452847d9477e11053142ff0e043';
-        const base  = 'https://www.banxico.org.mx/SieAPIRest/service/v1';
-        const url   = `${base}/series/SF60653,SF43718/datos/${fmtISO(start)}/${fmtISO(end)}?token=${token}`;
-
-        const res  = await fetch(url, { headers: { 'Bmx-Token': token, 'Accept': 'application/json' } });
-        const json = await res.json();
-        const series = json?.bmx?.series ?? [];
-
-        function parseSerie(id) {
-            const s = series.find(s => s.idSerie === id);
-            const datos = s?.datos ?? [];
-            const map = {};
-            datos.forEach(d => {
-                map[d.fecha] = (d.dato && d.dato !== 'N/E') ? parseFloat(d.dato) : null;
-            });
-            return map;
-        }
-
-        const fixMap   = parseSerie('SF43718');
-        const pagosMap = parseSerie('SF60653');
-
-        // Build sorted array of all fix dates for DOF calculation
-        const fixDates = Object.keys(fixMap).sort((a,b) => parseDate(a) - parseDate(b));
-
-        const result = cache[key] = { fixMap, pagosMap, fixDates };
+        const result = cache[key] = { rows: data.rows };
         return result;
     }
 
@@ -247,44 +224,15 @@
         document.getElementById('loading').style.display = 'block';
         document.getElementById('table-wrap').style.display = 'none';
 
-        const { fixMap, pagosMap, fixDates } = await fetchMonthData(year, month);
-
-        const days = getDaysInMonth(year, month);
-        let lastPagos = null;
-
-        // Find last pagos before this month for inheritance
-        const prevEnd = new Date(year, month - 1, 0);
-        // We use what we have
-
-        const rows = days.map(date => {
-            const f        = fmtDDMM(date);
-            const weekend  = isWeekend(date);
-            const fixVal   = fixMap[f] ?? null;
-
-            // DOF = last fix before this date with value
-            let dofVal = null;
-            if (!weekend && fixMap.hasOwnProperty(f)) {
-                const idx = fixDates.indexOf(f);
-                for (let i = idx - 1; i >= 0; i--) {
-                    if (fixMap[fixDates[i]] !== null) { dofVal = fixMap[fixDates[i]]; break; }
-                }
-            }
-
-            // Para Pagos
-            let pagosVal = pagosMap[f] ?? null;
-            if (pagosVal !== null) lastPagos = pagosVal;
-            else if (lastPagos !== null) pagosVal = lastPagos;
-
-            return { f, weekend, fixVal, dofVal, pagosVal };
-        });
+        const { rows } = await fetchMonthData(year, month);
 
         const tbody = document.getElementById('hist-body');
-        tbody.innerHTML = rows.map(({ f, weekend, fixVal, dofVal, pagosVal }) => {
-            const fFix   = fmt4(fixVal);
-            const fDof   = fmt4(dofVal);
-            const fPagos = fmt4(pagosVal);
+        tbody.innerHTML = rows.map(({ fecha, weekend, fix, dof, pagos }) => {
+            const fFix   = fmt4(fix);
+            const fDof   = fmt4(dof);
+            const fPagos = fmt4(pagos);
             return `<tr class="${weekend ? 'weekend' : ''}">
-                <td>${f}${weekend ? ' <span style="font-size:0.6rem;color:var(--slate-300)">FIN SEM</span>' : ''}</td>
+                <td>${fecha}${weekend ? ' <span style="font-size:0.6rem;color:var(--slate-300)">FIN SEM</span>' : ''}</td>
                 <td class="${fFix   ? '' : 'ne'}">${fFix   ?? 'N/E'}</td>
                 <td class="${fDof   ? '' : 'ne'}">${fDof   ?? 'N/E'}</td>
                 <td class="${fPagos ? 'highlight' : 'ne'}">${fPagos ?? 'N/E'}</td>
