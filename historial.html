@@ -204,7 +204,7 @@
         const key = `${year}-${month}`;
         if (cache[key]) return cache[key];
 
-        const res  = await fetch(`/api/banxico-mes?year=${year}&month=${month}`);
+        const res  = await fetch(`/api/banxico_mes?year=${year}&month=${month}`);
         const data = await res.json();
         if (!data.ok) throw new Error(data.error);
 
