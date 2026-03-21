@@ -64,8 +64,12 @@ export default async function handler(req, res) {
             date.setDate(date.getDate() + 1);
         }
 
+        // Cut off future days — only show up to today (Mexico time)
+        const hoyISO = fmtISO(hoyMx);
+        const daysFiltered = days.filter(d => fmtISO(d) <= hoyISO);
+
         let lastPagos = null;
-        const rows = days.map(d => {
+        const rows = daysFiltered.map(d => {
             const f       = fmtDDMM(d);
             const dayOfWeek = d.getDay();
             const weekend = dayOfWeek === 0 || dayOfWeek === 6;
